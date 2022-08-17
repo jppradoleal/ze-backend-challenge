@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: .
+    entrypoint:
+      - ./docker-entrypoint.sh
+    env_file:
+      - ./.env.dev
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+      - 5678:5678
+  db:
+    image: postgis/postgis:14-3.2
+    restart: unless-stopped
+    volumes:
+      - ./data/postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=zedelivery
+      - POSTGRES_DB=zedelivery
+      - POSTGRES_PASSWORD=zedelivery
